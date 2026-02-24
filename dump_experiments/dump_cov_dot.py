@@ -17,17 +17,11 @@ os.makedirs(output_dir)
 # --xla_dump_hlo_as_dot: 生成 .dot (可视化)
 # --xla_dump_hlo_as_proto: 生成 .pb (二进制)
 # --xla_dump_hlo_pass_re=.*: 导出所有阶段的图 (包括优化前和优化后)
-flags = (
-    f"--xla_dump_to={output_dir} "
-    "--xla_dump_hlo_as_text "
-    "--xla_dump_hlo_as_html "
-    "--xla_dump_hlo_pass_re=layout "
-)
-
 os.environ["XLA_FLAGS"] = (
     "--xla_dump_to=./xla_dumps_resnet "
     "--xla_dump_hlo_as_text "
     "--xla_dump_hlo_as_dot"
+    "--xla_dump_hlo_pass_re=* "
 )
 
 # =============================================================================
