@@ -21,7 +21,7 @@ os.environ["XLA_FLAGS"] = (
     "--xla_dump_to=./xla_dumps_resnet "
     "--xla_dump_hlo_as_text "
     "--xla_dump_hlo_as_dot"
-    "--xla_dump_hlo_pass_re=* "
+    "--xla_dump_hlo_pass_re=.* "
 )
 
 # =============================================================================
