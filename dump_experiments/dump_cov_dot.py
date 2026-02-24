@@ -4,7 +4,7 @@ import shutil
 # =============================================================================
 # 1. 配置 XLA Dump 环境变量 (必须在 import jax 之前完成)
 # =============================================================================
-output_dir = "./hlo_dot_cov_dump_layout"
+output_dir = "./xla_dumps_covdot"
 
 # 如果目录存在，先清理以便观察新生成的文件
 if os.path.exists(output_dir):
@@ -19,13 +19,16 @@ os.makedirs(output_dir)
 # --xla_dump_hlo_pass_re=.*: 导出所有阶段的图 (包括优化前和优化后)
 flags = (
     f"--xla_dump_to={output_dir} "
-    # "--xla_dump_hlo_as_text "
-    # "--xla_dump_hlo_as_dot "
-    # "--xla_dump_hlo_as_proto "
+    "--xla_dump_hlo_as_text "
+    "--xla_dump_hlo_as_html "
     "--xla_dump_hlo_pass_re=layout "
 )
-os.environ["XLA_FLAGS"] = flags
-print(f"XLA Flags 设置为: {flags}")
+
+os.environ["XLA_FLAGS"] = (
+    "--xla_dump_to=./xla_dumps_resnet "
+    "--xla_dump_hlo_as_text "
+    "--xla_dump_hlo_as_dot"
+)
 
 # =============================================================================
 # 2. 导入 JAX
