@@ -6,7 +6,7 @@ Model zoo for generating Hlo dataset and further experiment on RL fusion.
 ```
 ./bazel-bin/xla/tools/run_hlo_module \
   --platform=CUDA --reference_platform="" \
-  --xla_disable_hlo_passes=layout-assignment \
+  --xla_disable_hlo_passes=layout-assignment, layout_normalization \
   --xla_dump_to="$OUT/{greedy|beam}" \
   --xla_dump_hlo_pass_re='.*' \
   --xla_dump_hlo_as_text=true \
