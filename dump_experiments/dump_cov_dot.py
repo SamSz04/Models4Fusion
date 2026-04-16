@@ -4,7 +4,7 @@ import shutil
 # =============================================================================
 # 1. 配置 XLA Dump 环境变量 (必须在 import jax 之前完成)
 # =============================================================================
-output_dir = "./xla_dumps_covdot"
+output_dir = "./xla_dumps_covdot_4080_260416"
 
 # 如果目录存在，先清理以便观察新生成的文件
 if os.path.exists(output_dir):
@@ -18,11 +18,18 @@ os.makedirs(output_dir)
 # --xla_dump_hlo_as_proto: 生成 .pb (二进制)
 # --xla_dump_hlo_pass_re=.*: 导出所有阶段的图 (包括优化前和优化后)
 os.environ["XLA_FLAGS"] = (
-    "--xla_dump_to=./xla_dumps_resnet "
+    "--xla_dump_to=./xla_dumps_covdot_4080_260416 "
     "--xla_dump_hlo_as_text "
-    "--xla_dump_hlo_as_dot"
+    "--xla_dump_hlo_as_html "
+    # "--xla_dump_hlo_as_proto "
     "--xla_dump_hlo_pass_re=.* "
+    # "--xla_dump_hlo_pipeline_re=.*fusion.* "
+    # "--xla_dump_hlo_pass_re=.*fusion.* "
+    "--xla_dump_hlo_module_re=simple_computation "
+    "--xla_dump_fusion_visualization=true "
+    # "--xla_gpu_collect_cost_model_stats=true "
 )
+
 
 # =============================================================================
 # 2. 导入 JAX
@@ -111,5 +118,3 @@ result.block_until_ready()
 print(f"运行完成。输出 Shape: {result.shape}")
 print("-" * 30)
 print(f"文件已生成至: {os.path.abspath(output_dir)}")
-print("请寻找包含 'optimized' 关键字的文件，例如:")
-print("module_xxxx.jit_simple_computation.cpu_after_optimizations.txt (或 .pb)")
